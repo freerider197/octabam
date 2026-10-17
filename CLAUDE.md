@@ -20,13 +20,23 @@ Scope: **Octatrack only.** Jack also has a Digitone and a Rytm MK1; those are se
 - He is frustrated by wasted time and tokens. Be short and plain. No crammed formatting.
 - **Commands: one plain bash block for the whole sequence**, the usual flow: `make check` then `make image`.
   No clever tricks, no step-by-step across messages.
-- **Before any new image or piece of work, ask: does he build it on his Mac, or do you build it and hand him
-  the file?** Say whether sandbox/emulator tools are needed and roughly how heavy the checking is.
-  Keep `make check` and the other checks logged (`out/jack-mix-N.check.log`).
+- **WORKFLOW (VERY IMPORTANT, set by Jack 17 Oct 2026): he ALWAYS builds on his own Mac. Never build an image
+  here, never ask whether to.** Claude Code adds or removes modules, edits the remix, and checks everything
+  that matches (module composition, selftest entry, hooks, anything it can run), then gives him the exact
+  terminal commands as **one plain bash block**. He pastes and runs it himself. The block does: remix +
+  selftest entry, then `make check` (logged to `out/jack-mix-N.check.log`) `&& make image REMIX=jack-mix-N
+  BUILD=N VERSION=OCTAJACKN`, `shasum -a 256`, and copy the `.bin` to `octabam/out`.
+  Say plainly what is verified versus assumed, never delete his old builds, and **stop after reporting, with
+  no extras he did not ask for**.
+- Files he uploads (OS zip, his `.bin`) are for reference or later use, not a request to build. Never read an
+  upload or a "no" as permission to start work. Never invent module additions (fix modules etc.) as work to do;
+  suggestions are ideas at the end of a report, and only when asked for a roundup.
+- When he says "update" he wants: progress on the modules in his OS (v16 set) and a roundup of new releases
+  (Tim's repo tags, octabam main, Lukas Paul's modules), short. Not edits to files.
 - **Verify before he flashes.** Always say plainly what was *verified* versus *assumed*. Use octabam's own
   words: **measured** (on a unit), **port** (emulator), **inferred**.
-- Do the thing he asked in one go. When he says "I want the latest X with everything", add it and check it;
-  do not ask twice. Do not add unrequested features, tests or doc changes; mention ideas at the end.
+- Do exactly the thing he asked, in one go, no more. When he says "I want the latest X with everything", add it
+  to the remix and check it; do not ask twice. Do not add unrequested features, tests or doc changes.
 - Never remove or tidy his old build files. He keeps every superseded `.bin` as backup history.
 - Do not commit OS files or built `.bin` images to the public fork. octabam's rule is "no firmware distributed".
 - He lost trust once this week after untested claims. Do not repeat that: if you have not run it, say so.
