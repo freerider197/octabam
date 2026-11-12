@@ -89,6 +89,9 @@ def _variant(values):
     """PLACE -> the page's placement."""
     if values["PLACE"] != "DRAM":
         return {}
+    # jack-mix: Tim 2.15+ already links the page in DRAM with its own resolver detour here.
+    if any(d.site == _PAGE_HOOK for d in MODULE.detours):
+        return {}
     return {
         "linked": MODULE.linked + (Linked("page", os.path.join(str(_UPSTREAM_DIR), "page.s"),
                                           cpu="5475", dram=True),),

@@ -174,8 +174,10 @@ MODULE = dataclasses.replace(
     detours=tuple(
         dataclasses.replace(d, expect=d.expect[:6], pad_to=6)
         if d.site == 0x400449B8 else d for d in MODULE.detours),
-    keeps=MODULE.keeps + (Keep(0x400449BE, bytes.fromhex("2f00"),
-                               "MIDI CHROMATIC octave argument: branch enters after the audio hook"),),
+    # jack-mix: only Tim 2.9..2.12 hook 0x400449B8; 2.13+ hooks 0x400449BE itself (Modwerk #264).
+    keeps=MODULE.keeps + ((Keep(0x400449BE, bytes.fromhex("2f00"),
+                                "MIDI CHROMATIC octave argument: branch enters after the audio hook"),)
+                          if any(d.site == 0x400449B8 for d in MODULE.detours) else ()),
     gates=MODULE.gates + (Gate("tools/verify/verify_quantizer_ui.py", once=True, venv=True),),
     category=Category.MACHINES, author="timhastie/octatrick-modules",
     author_url="https://github.com/timhastie/octatrick-modules",
